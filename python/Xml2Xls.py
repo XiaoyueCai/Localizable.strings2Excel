@@ -21,8 +21,8 @@ def addParser():
 
     parser.add_option("-e", "--excelStorageForm",
                       type="string",
-                      default="multiple",
-                      help="The excel(.xls) file storage forms including single(single file), multiple(multiple files), default is multiple.",
+                      default="single",
+                      help="The excel(.xls) file storage forms including single(single file), multiple(multiple files), default is single.",
                       metavar="excelStorageForm")
 
     (options, args) = parser.parse_args()
@@ -57,8 +57,12 @@ def convertToMultipleFiles(fileDir, targetDir):
 
 def convertToSingleFile(fileDir, targetDir):
     destDir = genDestDir(targetDir)
+    defaultKeyValues = {}
 
     for _, dirnames, _ in os.walk(fileDir):
+        if "values" in dirnames:
+            dirnames.remove("values")
+            dirnames.insert(0, "values")
         valuesDirs = [di for di in dirnames if di.startswith("values")]
         for dirname in valuesDirs:
             for _, _, filenames in os.walk(fileDir+'/'+dirname):
@@ -77,15 +81,18 @@ def convertToSingleFile(fileDir, targetDir):
                             ws.write(0, index+1, countryCode)
 
                             path = fileDir+'/'+dirname+'/' + xmlfile
-                            (keys, values) = XmlFileUtil.getKeysAndValues(path)
-                            for x in range(len(keys)):
-                                key = keys[x]
-                                value = values[x]
+                            (keys, values, keyValues) = XmlFileUtil.getKeysAndValues(path)
+                            x = 0
+                            if dirname == "values":
+                                defaultKeyValues = keyValues
+                            for key, value in defaultKeyValues.items():
+                                relValue = keyValues[key] if key in keyValues else ""
                                 if (index == 0):
                                     ws.write(x+1, 0, key)
-                                    ws.write(x+1, 1, value)
+                                    ws.write(x+1, 1, relValue)
                                 else:
-                                    ws.write(x+1, index + 1, value)
+                                    ws.write(x+1, index + 1, relValue)
+                                x += 1
                             index += 1
                         workbook.save(filePath)
     print "Convert %s successfully! you can see xls file in %s" % (

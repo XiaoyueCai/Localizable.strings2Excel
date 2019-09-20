@@ -49,11 +49,15 @@ class XmlFileUtil:
 
         keys = []
         values = []
+        keyValues = {}
         for index in range(len(itemlist)):
             item = itemlist[index]
+            translatable = item.getAttribute("translatable")
             key = item.getAttribute("name")
             value = item.firstChild.data
-            keys.append(key)
-            values.append(value)
+            if translatable != "false":
+                keys.append(key)
+                values.append(value)
+                keyValues[key] = value
 
-        return (keys, values)
+        return (keys, values, keyValues)
