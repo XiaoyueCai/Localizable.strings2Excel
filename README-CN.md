@@ -83,7 +83,7 @@ Convert examples/output/strings-files-to-xls_20190129_165830/ successfully! you 
 ```
 $ python python/Xml2Xls.py -f examples/android/ -t examples/output
 
-options: {'fileDir': 'examples/android/', 'targetDir': 'examples/output', 'excelStorageForm': 'multiple'}, args: []
+options: {'fileDir': 'examples/android/', 'targetDir': 'examples/output', 'excelStorageForm': 'single'}, args: []
 
 Start converting
 Convert examples/android/ successfully! you can see xls file in examples/output/xml-files-to-xls_20190129_172938
@@ -96,7 +96,7 @@ Convert examples/android/ successfully! you can see xls file in examples/output/
 ```
 $ python python/Xls2Xml.py -f examples/output/xml-files-to-xls_20190129_172938/ -t examples/output/
 
-options: {'fileDir': 'examples/output/xml-files-to-xls_20190129_172938/', 'targetDir': 'examples/output/', 'excelStorageForm': 'multiple', 'additional': None}, args
+options: {'fileDir': 'examples/output/xml-files-to-xls_20190129_172938/', 'targetDir': 'examples/output/', 'excelStorageForm': 'single', 'additional': None}, args
 : []
 
 Start converting
