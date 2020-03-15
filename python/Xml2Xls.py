@@ -66,21 +66,20 @@ def convertToSingleFile(file_dir, target_dir):
         values_dirs = [di for di in dir_names if di.startswith("values")]
         for dir_name in values_dirs:
             for _, _, filenames in os.walk(os.path.join(file_dir, dir_name)):
-                xml_files = [fi for fi in filenames if fi.endswith(".xml")]
-                for xml_file in xml_files:
-                    file_name = xml_file.replace(".xml", "")
-                    file_path = os.path.join(dest_dir, file_name + ".xls")
-                    if not os.path.exists(file_path):
-                        workbook = pyExcelerator.Workbook()
-                        ws = workbook.add_sheet(file_name)
-                        index = 0
-                        for dir_name in dir_names:
+                xml_file = "strings.xml"
+                file_name = xml_file.replace(".xml", "")
+                file_path = os.path.join(dest_dir, file_name + ".xls")
+                if not os.path.exists(file_path):
+                    workbook = pyExcelerator.Workbook()
+                    ws = workbook.add_sheet(file_name)
+                    index = 0
+                    for dir_name in dir_names:
+                        path = os.path.join(file_dir, dir_name, xml_file)
+                        if os.path.exists(path):
                             if index == 0:
                                 ws.write(0, 0, 'keyName')
                             country_code = getCountryCode(dir_name)
-                            ws.write(0, index+1, country_code)
-
-                            path = os.path.join(file_dir, dir_name, xml_file)
+                            ws.write(0, index + 1, country_code)
                             (keys, values, keyValues) = XmlFileUtil.getKeysAndValues(path)
                             x = 0
                             if dir_name == "values":
@@ -88,13 +87,13 @@ def convertToSingleFile(file_dir, target_dir):
                             for key, value in default_key_values.items():
                                 rel_value = keyValues[key] if key in keyValues else ""
                                 if index == 0:
-                                    ws.write(x+1, 0, key)
-                                    ws.write(x+1, 1, rel_value)
+                                    ws.write(x + 1, 0, key)
+                                    ws.write(x + 1, 1, rel_value)
                                 else:
-                                    ws.write(x+1, index + 1, rel_value)
+                                    ws.write(x + 1, index + 1, rel_value)
                                 x += 1
                             index += 1
-                        workbook.save(file_path)
+                    workbook.save(file_path)
     print "Convert %s successfully! you can see xls file in %s" % (
         file_dir, dest_dir)
 
