@@ -1,12 +1,12 @@
 # -*- coding:utf-8 -*-
 
-from optparse import OptionParser
-from XlsFileUtil import XlsFileUtil
-from XmlFileUtil import XmlFileUtil
-from StringsFileUtil import StringsFileUtil
-from Log import Log
 import os
 import time
+from optparse import OptionParser
+
+from Log import Log
+from XlsFileUtil import XlsFileUtil
+from XmlFileUtil import XmlFileUtil
 
 
 def addParser():
@@ -22,8 +22,8 @@ def addParser():
 
     parser.add_option("-e", "--excelStorageForm",
                       type="string",
-                      default="multiple",
-                      help="The excel(.xls) file storage forms including single(single file), multiple(multiple files), default is multiple.",
+                      default="single",
+                      help="The excel(.xls) file storage forms including single(single file), multiple(multiple files), default is single.",
                       metavar="excelStorageForm")
 
     parser.add_option("-a", "--additional",
