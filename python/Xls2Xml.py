@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import os
+import re
 import time
 from optparse import OptionParser
 
@@ -55,6 +56,12 @@ def convertFromSingleForm(options, fileDir, targetDir):
 
                 if languageName == "zh-Hans":
                     languageName = "zh-rCN"
+                elif languageName == "zh-Hant":
+                    languageName = "zh-rTW"
+                else:
+                    match = re.match(r"^([a-z]{2})-([A-Z]{2})$", languageName)
+                    if match:
+                        languageName = match.group(1) + "-r" + match.group(2)
 
                 path = targetDir + "/values-"+languageName+"/"
                 if languageName == 'en':
