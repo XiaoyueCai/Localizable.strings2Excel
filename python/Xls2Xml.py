@@ -59,7 +59,7 @@ def convertFromSingleForm(options, fileDir, targetDir):
                 path = targetDir + "/values-"+languageName+"/"
                 if languageName == 'en':
                     path = targetDir + "/values/"
-                filename = file.replace(".xls", ".xml")
+                filename = "strings.xml"
                 XmlFileUtil.writeToFile(
                     keys, values, path, filename, options.additional)
     print "Convert %s successfully! you can xml files in %s" % (
