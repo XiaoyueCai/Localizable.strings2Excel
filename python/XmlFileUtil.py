@@ -54,7 +54,11 @@ class XmlFileUtil:
             item = itemlist[index]
             translatable = item.getAttribute("translatable")
             key = item.getAttribute("name")
-            value = item.firstChild.data
+            try:
+                value = item.firstChild.data
+            except:
+                Log.error('file=' + path + ', key=' + key + "has not data")
+                continue
             if translatable != "false":
                 keys.append(key)
                 values.append(value)
