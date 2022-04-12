@@ -5,6 +5,7 @@ import os
 from Log import Log
 import xml.dom.minidom
 import re
+import xml.etree.cElementTree as ET
 
 
 class XmlFileUtil:
@@ -65,3 +66,27 @@ class XmlFileUtil:
                 keyValues[key] = value
 
         return (keys, values, keyValues)
+
+    @staticmethod
+    def get_array_dict(path):
+        if path is None:
+            Log.error('file path is None')
+            return
+
+        dom = ET.parse(path)
+        root = dom.getroot()
+        array = root[0]
+
+        data = []
+        for dict_item in array:
+            data_item = {}
+            for index in range(0, len(list(dict_item)), 2):
+                key_item = dict_item[index]
+                value_item = dict_item[index + 1]
+                value = value_item.text
+                if value_item.tag == 'integer':
+                    value = int(value)
+                data_item[key_item.text] = value
+            data.append(data_item)
+
+        return data
