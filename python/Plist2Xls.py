@@ -43,8 +43,7 @@ def convert_to_single_file(file_dir, target_dir):
         for key, value in item.items():
             if index == 0:
                 ws.write(index, x, key)
-            else:
-                ws.write(index, x, value)
+            ws.write(index + 1, x, value)
             x += 1
         index += 1
     workbook.save(file_path)
