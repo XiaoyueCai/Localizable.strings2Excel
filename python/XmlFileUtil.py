@@ -86,6 +86,8 @@ class XmlFileUtil:
                 value = value_item.text
                 if value_item.tag == 'integer':
                     value = int(value)
+                elif value_item.tag == 'real':
+                    value = int(value)
                 data_item[key_item.text] = value
             data.append(data_item)
 
