@@ -33,6 +33,7 @@ class XmlFileUtil:
             if not value.startswith("\"") and not value.endswith("\""):
                 value = re.sub(r"([^\\])(')", r"\1\'", value, re.MULTILINE)
             value = value.replace("...", "…")
+            value = re.sub(r'([^\\])(")', r'\1\"', value, re.MULTILINE)
             content = "   <string name=\"" + key + "\">" + value + "</string>\n"
             fo.write(content)
 
