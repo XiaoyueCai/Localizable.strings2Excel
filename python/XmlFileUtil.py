@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import os
+from collections import OrderedDict
 from Log import Log
 import xml.dom.minidom
 import re
@@ -55,7 +56,7 @@ class XmlFileUtil:
 
         keys = []
         values = []
-        keyValues = {}
+        keyValues = OrderedDict()
         for index in range(len(itemlist)):
             item = itemlist[index]
             translatable = item.getAttribute("translatable")

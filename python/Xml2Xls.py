@@ -43,7 +43,7 @@ def convertToMultipleFiles(fileDir, targetDir):
                 for xmlfile in xmlFiles:
                     ws = workbook.add_sheet(xmlfile)
                     path = os.path.join(fileDir, dirname, xmlfile)
-                    (keys, values) = XmlFileUtil.getKeysAndValues(path)
+                    (keys, values, _) = XmlFileUtil.getKeysAndValues(path)
                     for keyIndex in range(len(keys)):
                         key = keys[keyIndex]
                         value = values[keyIndex]
