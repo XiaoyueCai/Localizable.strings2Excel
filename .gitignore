@@ -110,3 +110,6 @@ python/*.py[cod]
 examples/output
 
 .idea
+
+# Mac system files（mac系统下的文件）
+.DS_Store
