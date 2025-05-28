@@ -8,42 +8,36 @@ import xml.dom.minidom
 import re
 import xml.etree.cElementTree as ET
 
-
 class XmlFileUtil:
-    'android strings.xml file util'
+    """android strings.xml file util"""
 
     @staticmethod
     def writeToFile(keys, values, directory, filename, additional):
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-        fo = open(directory + "/" + filename, "wb")
+        # 使用 'w' 模式和 UTF-8 编码
+        with open(os.path.join(directory, filename), 'w', encoding='utf-8') as fo:
+            fo.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n")
 
-        stringEncoding = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"
-        fo.write(stringEncoding)
+            for x in range(len(keys)):
+                if not values[x]:
+                    Log.error(f"File: {fo.name}, Key: {keys[x]}\'s value is None. Index: {(x + 1)}")
+                    continue
 
-        for x in range(len(keys)):
-            if values[x] is None or values[x] == '':
-                Log.error("Key:" + keys[x] +
-                          "\'s value is None. Index:" + str(x + 1))
-                continue
+                key = keys[x].strip()
+                value = re.sub(r'(%\d\$)(@)', r'\1s', values[x])
+                value = re.sub(r"&(?!amp;)", "&amp;", value)
+                if not value.startswith("\"") and not value.endswith("\""):
+                    value = re.sub(r"([^\\])(')", r"\1\'", value)
+                value = value.replace("...", "…")
+                value = re.sub(r'([^\\])(")', r'\1\"', value)
+                value = value.replace("<", "&lt;")
+                fo.write(f'   <string name="{key}">{value}</string>\n')
 
-            key = keys[x].strip()
-            value = re.sub(r'(%\d\$)(@)', r'\1s', values[x])
-            value = re.sub(r"&(?!amp;)", "&amp;", value, re.MULTILINE)
-            if not value.startswith("\"") and not value.endswith("\""):
-                value = re.sub(r"([^\\])(')", r"\1\'", value, re.MULTILINE)
-            value = value.replace("...", "…")
-            value = re.sub(r'([^\\])(")', r'\1\"', value, re.MULTILINE)
-            value = value.replace("<", "&lt;")
-            content = "   <string name=\"" + key + "\">" + value + "</string>\n"
-            fo.write(content)
-
-        if additional is not None:
-            fo.write(additional)
-
-        fo.write("</resources>")
-        fo.close()
+            if additional:
+                fo.write(additional)
+            fo.write("</resources>")
 
     @staticmethod
     def getKeysAndValues(path):
