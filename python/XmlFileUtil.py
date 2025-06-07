@@ -26,7 +26,8 @@ class XmlFileUtil:
                     continue
 
                 key = keys[x].strip()
-                value = re.sub(r'(%\d\$)(@)', r'\1s', values[x])
+                value = str(values[x])
+                value = re.sub(r'(%\d\$)(@)', r'\1s', value)
                 value = re.sub(r"&(?!amp;)", "&amp;", value)
                 if not value.startswith("\"") and not value.endswith("\""):
                     value = re.sub(r"([^\\])(')", r"\1\'", value)
